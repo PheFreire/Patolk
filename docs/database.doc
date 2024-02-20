@@ -1,0 +1,117 @@
+Users
+	id: String
+	username: String
+	image: url
+	email: String
+	password: String
+	salting: String
+	email_verify: bool
+	register_date: datetime
+	birth_date: datetime
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Permissions:
+	id: String
+	permission_name: String
+	description: String
+	room_permission: bool
+	user_permission: bool
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+RoomGroups
+	id: String
+	name: String
+
+RoomGroups_Permissions
+	id: String
+	room_groups_fk: &RoomGroups
+	permission_fk: &Permissions
+
+Rooms
+	id: String 
+	name: String
+	password: String
+	description: String
+	max_users: Integer
+	user_fk: &Users
+	image: String
+	url: String
+	room_group: &RoomGroups
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+UserGroups
+	id: String
+	name: String
+
+UserGroups_Permissions
+	id: String
+	user_group_fk: &UserGroups
+	permission_fk: &Permission
+
+Rooms_UserGroups
+	id: String
+	room_fk: &Rooms
+	user_group_fk: &UserGroups
+
+RoomMembers
+	id: String
+	user_fk: &User
+	room_fk: &Room
+	is_blocked: boolpermission_fk
+	group: &UserGroups
+	envited_accepted: bool
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+MessagesTypes
+	id: String
+	type: String
+	description: String 
+
+Messages
+	id: String
+	content: String
+	user_fk: &User
+	is_visible: bool
+	is_fixed: bool
+	is_edited: bool
+	is_reply: bool
+	message_type_fk: &MessagesTypes
+	upload_date: Datetime
+	last_modification_date: Datetime
+
+ReplyMessages
+	id: String
+	replied_message_fk: &Message
+	response_message_fk: &Message
+
+Reactions
+	id: String
+	content: String
+
+Messages_Reactions
+	id: String
+	message_fk: &Messages
+	reaction_fk: &Reactions
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+# Chats
+# Chats_Messages
+# Rooms_Chats
+
+
+Permission Payload:
+create_new_chats_permission
+create_new_voices_permission
+change_room_name
+change_room_password
+change_room_description
+share_room_url
+is_private_room
+remove_user
+add_user
+give_permissions
